@@ -6,14 +6,17 @@ export const Formulario = ({
   listaMoneda,
   listaCriptomoneda,
   setResultado,
-  setShowCard,
+  setLoading,
 }) => {
   const [simboloMoneda, setSimboloMoneda] = useState("");
   const [nombreCriptomoneda, setNombreCriptomoneda] = useState("");
 
-  const getCriptomoneda = async (url) => {
-    const result = await axios.get(url);
-    setResultado(result.data.DISPLAY[nombreCriptomoneda][simboloMoneda]);
+  const getCriptomoneda = (url) => {
+    setLoading(true);
+    axios.get(url).then((result) => {
+      setResultado(result.data.DISPLAY[nombreCriptomoneda][simboloMoneda]);
+      setLoading(false);
+    });
   };
 
   const cotizarPrecioActual = (e) => {
@@ -25,18 +28,16 @@ export const Formulario = ({
           title: "Advertencia",
           icon: "warning",
           type: "warning",
-          text: "Debe de seleccionar el tipo de moneda y criptomoneda.",
+          text: "Debe seleccionar el tipo de moneda y criptomoneda.",
         });
         return;
       }
-
-      setTimeout(() => {
-        getCriptomoneda(url);
-        setShowCard(true);
-      }, 2000);
+      getCriptomoneda(url);
       setSimboloMoneda("");
       setNombreCriptomoneda("");
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <form onSubmit={cotizarPrecioActual}>

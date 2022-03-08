@@ -7,7 +7,7 @@ import { Card } from "./components/Card";
 function App() {
   const [listaCriptomoneda, setListaCriptomoneda] = useState([]);
   const [resultado, setResultado] = useState({});
-  const [showCard, setShowCard] = useState(false);
+  const [loading, setLoading] = useState(false);
   const url = `https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD`;
   const listaMoneda = [
     { id: 1, moneda: "Dolar", simbolo: "USD" },
@@ -21,12 +21,12 @@ function App() {
       const { Data } = result.data;
       setListaCriptomoneda(Data);
     } catch (error) {
-      throw new Error("No se puede cargar la información.");
+      throw new Error("No encontró información.");
     }
   };
   useEffect(() => {
     getData();
-  }, [listaCriptomoneda]);
+  }, [null]);
 
   return (
     <div className="container mt-5">
@@ -45,10 +45,12 @@ function App() {
             listaMoneda={listaMoneda}
             listaCriptomoneda={listaCriptomoneda}
             setResultado={setResultado}
-            setShowCard={setShowCard}
+            setLoading={setLoading}
           />
         </div>
-        <div className="col">{showCard && <Card resultado={resultado} />}</div>
+        <div className="col">
+          <Card resultado={resultado} loading={loading} />
+        </div>
       </div>
     </div>
   );
