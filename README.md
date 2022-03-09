@@ -12,7 +12,13 @@ Clonar proyecto
 git clone https://github.com/DnarvaezCode/AG-DEMO-CRIPTO.git
 ```
 
-Ejecutar proyecto
+Ejecutar comando
+
+```bash
+npm i
+```
+
+Correr proyecto
 
 ```bash
 npm start
