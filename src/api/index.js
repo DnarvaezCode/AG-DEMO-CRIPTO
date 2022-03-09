@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = `https://min-api.cryptocompare.com/data`;
+export const baseUrl = `https://min-api.cryptocompare.com/data`;
 
 export const obtenerMoneda = async () => {
   try {

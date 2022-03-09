@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { obtenerInfoCripto } from "../api";
 import { toast, Toaster } from "react-hot-toast";
+import PropTypes from "prop-types";
+
 export const Formulario = ({
   listaMoneda,
   listaCriptomoneda,
@@ -81,4 +83,8 @@ export const Formulario = ({
       </fieldset>
     </form>
   );
+};
+
+Formulario.propTypes = {
+  listaMoneda: PropTypes.array.isRequired,
 };
