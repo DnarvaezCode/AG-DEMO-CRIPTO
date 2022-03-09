@@ -1,38 +1,30 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Formulario } from "./components/Formulario";
 import { Card } from "./components/Card";
+import { listaMoneda } from "./helpers/listaMoneda";
+import { Loader } from "./components/Loader";
+import { obtenerMoneda } from "./api/index";
 
 function App() {
   const [listaCriptomoneda, setListaCriptomoneda] = useState([]);
   const [resultado, setResultado] = useState({});
-  const [loading, setLoading] = useState(false);
-  const url = `https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD`;
-  const listaMoneda = [
-    { id: 1, moneda: "Dolar", simbolo: "USD" },
-    { id: 2, moneda: "Euro", simbolo: "EUR" },
-    { id: 3, moneda: "Peso Mexicano", simbolo: "MXN" },
-    { id: 4, moneda: "Libra Esterlina", simbolo: "GBP" },
-  ];
+  const [loading, setLoading] = useState(true);
+
   const getData = async () => {
-    try {
-      const result = await axios.get(url);
-      const { Data } = result.data;
-      setListaCriptomoneda(Data);
-    } catch (error) {
-      throw new Error("No encontró información.");
-    }
+    const data = await obtenerMoneda();
+    setListaCriptomoneda(data);
   };
   useEffect(() => {
     getData();
-  }, [null]);
+  }, []);
 
   return (
     <div className="container mt-5">
       <div className="text-center">
         <img
-          style={{ width: "15%", height: "15%" }}
+          width="15%"
+          height="15%"
           src="https://th.bing.com/th/id/OIP.je8DZQdaTo5-wReggrmLqAHaEj?pid=ImgDet&rs=1"
           className="rounded"
           alt="..."
@@ -49,7 +41,11 @@ function App() {
           />
         </div>
         <div className="col">
-          <Card resultado={resultado} loading={loading} />
+          {loading ? (
+            <Loader />
+          ) : !resultado?.PRICE ? null : (
+            <Card resultado={resultado} />
+          )}
         </div>
       </div>
     </div>

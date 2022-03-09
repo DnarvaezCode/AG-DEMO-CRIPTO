@@ -1,28 +1,23 @@
-import React from "react";
 import "animate.css";
-export const Card = ({ resultado, loading }) => {
-  return loading ? (
-    <div className="card text-white bg-secondary mt-5 animate__bounceInRight">
-      <p className="card-text text-center">Cargando...</p>
-    </div>
-  ) : resultado.PRICE ? (
+export const Card = ({ resultado }) => {
+  const { PRICE, HIGHDAY, LOWDAY, CHANGEPCT24HOUR, LASTUPDATE } = resultado;
+  return (
     <div className="card text-white bg-secondary mt-5 animate__tada">
       <div className="card-body ">
-        <h5 className="card-title">{resultado.PRICE}</h5>
+        <h5 className="card-title">{PRICE}</h5>
         <p className="card-text">
-          Precion mas alto: <strong>{resultado.HIGHDAY}</strong>
+          Precio más alto: <strong>{HIGHDAY}</strong>
         </p>
         <p className="card-text">
-          Precion mas bajo: <strong>{resultado.LOWDAY}</strong>
+          Precio más bajo: <strong>{LOWDAY}</strong>
         </p>
         <p className="card-text">
-          Variación ultimas 24 horas:{" "}
-          <strong>{resultado.CHANGEPCT24HOUR}</strong>
+          Variación ultimas 24 horas: <strong>{CHANGEPCT24HOUR}</strong>
         </p>
         <p className="card-text">
-          Ultimas actualización: <strong>{resultado.LASTUPDATE}</strong>
+          Ultima actualización: <strong>{LASTUPDATE}</strong>
         </p>
       </div>
     </div>
-  ) : null;
+  );
 };

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
-import Swal from "sweetalert2";
-
+import { obtenerInfoCripto } from "../api";
+import { toast, Toaster } from "react-hot-toast";
 export const Formulario = ({
   listaMoneda,
   listaCriptomoneda,
@@ -11,28 +10,24 @@ export const Formulario = ({
   const [simboloMoneda, setSimboloMoneda] = useState("");
   const [nombreCriptomoneda, setNombreCriptomoneda] = useState("");
 
-  const getCriptomoneda = (url) => {
-    setLoading(true);
-    axios.get(url).then((result) => {
-      setResultado(result.data.DISPLAY[nombreCriptomoneda][simboloMoneda]);
-      setLoading(false);
-    });
-  };
-
-  const cotizarPrecioActual = (e) => {
+  const cotizarPrecioActual = async (e) => {
     try {
       e.preventDefault();
-      const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${nombreCriptomoneda}&tsyms=${simboloMoneda}`;
-      if (simboloMoneda.trim() === "" || nombreCriptomoneda.trim() === "") {
-        Swal.fire({
-          title: "Advertencia",
-          icon: "warning",
-          type: "warning",
-          text: "Debe seleccionar el tipo de moneda y criptomoneda.",
-        });
+      if (simboloMoneda.trim() === "") {
+        toast.error("Seleccione una moneda.");
+        return;
+      } else if (nombreCriptomoneda.trim() === "") {
+        toast.error("Seleccione una criptomoneda.");
         return;
       }
-      getCriptomoneda(url);
+
+      setLoading(true);
+      const resultadoCripto = await obtenerInfoCripto(
+        nombreCriptomoneda,
+        simboloMoneda
+      );
+      setResultado(resultadoCripto);
+      setLoading(false);
       setSimboloMoneda("");
       setNombreCriptomoneda("");
     } catch (error) {
@@ -51,7 +46,7 @@ export const Formulario = ({
             onChange={(e) => setSimboloMoneda(e.target.value)}
           >
             <option key={0} value={""} selected>
-              - Selecciona la moneda --
+              -- Selecciona la moneda --
             </option>
             {listaMoneda.map((item) => (
               <option key={item.id} value={item.simbolo}>
@@ -77,12 +72,12 @@ export const Formulario = ({
             ))}
           </select>
         </div>
-
         <div className="d-grid gap-2">
           <button type="submit" className="btn btn-dark btn-block">
             COTIZAR
           </button>
         </div>
+        <Toaster position="top-right" reverseOrder={false} />
       </fieldset>
     </form>
   );
