@@ -45,7 +45,7 @@ export const Formulario = ({
             className="form-select"
             onChange={(e) => setSimboloMoneda(e.target.value)}
           >
-            <option key={0} value={""} selected>
+            <option key={0} value={""}>
               -- Selecciona la moneda --
             </option>
             {listaMoneda.map((item) => (
@@ -62,7 +62,7 @@ export const Formulario = ({
             className="form-select"
             onChange={(e) => setNombreCriptomoneda(e.target.value)}
           >
-            <option key={0} value={""} selected>
+            <option key={0} value={""}>
               -- Seleccione criptomoneda --
             </option>
             {listaCriptomoneda.map((item) => (

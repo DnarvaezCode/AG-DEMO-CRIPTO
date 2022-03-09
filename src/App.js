@@ -9,7 +9,7 @@ import { obtenerMoneda } from "./api/index";
 function App() {
   const [listaCriptomoneda, setListaCriptomoneda] = useState([]);
   const [resultado, setResultado] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const getData = async () => {
     const data = await obtenerMoneda();
